@@ -1,0 +1,82 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/code
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DJANGO_SETTINGS_MODULE=config.settings
+    depends_on:
+      - db
+    restart: always
+    networks:
+      - routeopt-network
+
+  frontend:
+    build: ./frontend
+    command: npm run dev -- --host 0.0.0.0
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - routeopt-network
+
+  db:
+    image: postgis/postgis:14-3.2
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_DB: routeoptimum
+      POSTGRES_USER: routeuser
+      POSTGRES_PASSWORD: routepass
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - routeopt-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@routeopt.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - routeopt-network
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - frontend
+    restart: always
+    networks:
+      - routeopt-network
+
+volumes:
+  pgdata:
+  pgadmin_data:
+
+networks:
+  routeopt-network:
+    driver: bridge
