@@ -50,3 +50,4 @@ def logout_view(request):
         logout(request)
         return JsonResponse({'message': 'Logout successful'})
     return JsonResponse({'error': 'POST request required'}, status=400)
+# Note: The above code assumes that the User model is defined in the Django settings and uses the default authentication backend.
