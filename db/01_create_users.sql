@@ -1,13 +1,11 @@
--- 01_create_users.sql
-
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    username TEXT UNIQUE NOT NULL,
-    email TEXT UNIQUE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
-    role TEXT CHECK (role IN ('admin', 'driver', 'dispatcher')) NOT NULL,
-    full_name TEXT,
-    contact_number TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    role VARCHAR(50) CHECK (role IN ('admin', 'driver', 'dispatcher')) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
 );
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);

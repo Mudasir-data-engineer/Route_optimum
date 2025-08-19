@@ -80,9 +80,11 @@ services:
       - db
     environment:
       - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://routeuser:routepass@db:5432/routeoptimum
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://routeuser:routepass@db:5432/routeoptimum
       - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=True
       - AIRFLOW__WEBSERVER__SECRET_KEY=cfc7fbc2650c46aab1978a66a436298b
+      - _AIRFLOW_WWW_USER_USERNAME=airflow
+      - _AIRFLOW_WWW_USER_PASSWORD=airflow
     ports:
       - "8080:8080"
     volumes:
@@ -103,11 +105,14 @@ services:
       - ./etl/src:/opt/airflow/etl
     environment:
       - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://routeuser:routepass@db:5432/routeoptimum
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://routeuser:routepass@db:5432/routeoptimum
       - AIRFLOW__WEBSERVER__SECRET_KEY=cfc7fbc2650c46aab1978a66a436298b
+      - _AIRFLOW_WWW_USER_USERNAME=airflow
+      - _AIRFLOW_WWW_USER_PASSWORD=airflow
     networks:
       - routeopt-network
     command: scheduler
+
 
   # 🐘 Kafka
   zookeeper:
