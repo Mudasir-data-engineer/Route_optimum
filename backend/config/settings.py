@@ -137,10 +137,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'routeoptimum'),
+        'NAME': os.environ.get('POSTGRES_DB', 'routeoptimum_new'),
         'USER': os.environ.get('POSTGRES_USER', 'routeuser'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'routepass'),
-        'HOST': os.environ.get('DB_HOST', 'db'),
+        'HOST': os.environ.get('DB_HOST', 'route-optimum-db-1'),  # container name
         'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }

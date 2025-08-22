@@ -1,3 +1,4 @@
+# app/core/models.py
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
@@ -9,8 +10,9 @@ class User(AbstractUser):
         ('customer', 'Customer'),
     )
 
+    full_name = models.CharField(max_length=150)  # ✅ matches DB
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
-    contact_info = models.TextField(blank=True, null=True)
+    contact_info = models.TextField(blank=True, null=True)  # optional extra field
 
     groups = models.ManyToManyField(
         Group,
@@ -29,15 +31,3 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
-
-
-class Delivery(models.Model):
-    # Example fields - customize as needed
-    delivery_id = models.CharField(max_length=50, unique=True)
-    customer_name = models.CharField(max_length=100)
-    address = models.TextField()
-    delivery_date = models.DateField()
-    status = models.CharField(max_length=20, default='pending')
-
-    def __str__(self):
-        return f"Delivery {self.delivery_id} to {self.customer_name}"
