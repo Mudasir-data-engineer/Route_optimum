@@ -18,6 +18,7 @@ urlpatterns = [
     path('api/customers/', include('app.customers.api.urls')),
     path('api/vehicles/', include('app.vehicles.api.urls')),
     path('api/deliveries/', include('app.deliveries.api.urls')),
+    path('api/routes/', include('app.routes.urls')),  # ✅ routes add here
 ]
 
 if settings.DEBUG:
