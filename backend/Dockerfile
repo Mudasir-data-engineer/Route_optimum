@@ -3,13 +3,18 @@ FROM python:3.11-slim
 # Set working directory
 WORKDIR /code
 
-# Install system dependencies first (for psycopg2 etc.)
+# Install system dependencies (GDAL, Postgres client, etc.)
 RUN apt-get update && apt-get install -y \
     gcc \
     libpq-dev \
     curl \
+    gdal-bin \
+    libgdal-dev \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
+
+# Set GDAL path (important)
+ENV GDAL_LIBRARY_PATH=/usr/lib/libgdal.so
 
 # Copy and install Python dependencies
 COPY requirements.txt .

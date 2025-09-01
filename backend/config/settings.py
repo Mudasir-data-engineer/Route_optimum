@@ -11,7 +11,6 @@ SECRET_KEY = 'django-insecure-b(9kdm^-wd901^=2%3o&kfl%!o##72^crr94-g%!5qw_&^((b3
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']  # Updated to allow external requests for Docker testing
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,12 +24,14 @@ INSTALLED_APPS = [
     'app.deliveries.apps.DeliveriesConfig',
     'app.vehicles.apps.VehiclesConfig',
     'app.customers.apps.CustomersConfig',
+    'app.routes.apps.RoutesConfig',   # ✅ add this
 
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist',
 ]
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
